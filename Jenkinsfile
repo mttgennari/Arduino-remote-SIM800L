@@ -1,7 +1,4 @@
 pipeline {
-  triggers {
-    issueCommentTrigger('.*rebuild.*')
-  }
   agent any
   stages {
     stage('Build') {
