@@ -16,3 +16,4 @@ The app should be installed on your phone
 ## License
 
 I don't take any responsability in case of Arduino or other parth malfunctioning
+modifica stupida
