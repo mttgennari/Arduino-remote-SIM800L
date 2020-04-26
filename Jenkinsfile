@@ -6,6 +6,8 @@ pipeline {
         sh 'arduino-cli compile --fqbn arduino:avr:uno Boiler.ino'
       }
     }
-
+    triggers {
+      issueCommentTrigger('.*rebuild.*')
+    }
   }
 }
