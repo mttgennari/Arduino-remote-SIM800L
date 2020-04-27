@@ -16,7 +16,7 @@
     
     if ($result->num_rows > 0) {
         // output data of each row
-        $result->fetch_assoc();
+        $row = $result->fetch_assoc();
         $res = $row['tempin'];
     } else {
         $res = "Risorsa non trovata";
