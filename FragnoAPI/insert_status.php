@@ -7,7 +7,7 @@
     //$now = $now-60;
     //$temp = rand(20, 40);
 
-    $server = "serverteknel.ddns.net";
+    $server = "localhost";
     $user = "site";
     $password = "gnnmtt94";
     
