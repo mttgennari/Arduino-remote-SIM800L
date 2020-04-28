@@ -11,13 +11,14 @@
         $res = "ERRORE!\nConnessione fallita";
     }
     
-    $sql = "SELECT tempin FROM temperatura WHERE timestamp = (SELECT max(timestamp) from temperatura)";
+    $sql = "SELECT timestamp, tempin FROM temperatura WHERE timestamp = (SELECT max(timestamp) from temperatura)";
     $result = $conn->query($sql);
     
     if ($result->num_rows > 0) {
         // output data of each row
         $row = $result->fetch_assoc();
-        $res = $row['tempin'];
+        $res = $row['timestamp'];
+        $res = $res."&".$row['tempin'];
     } else {
         $res = "Risorsa non trovata";
     }
