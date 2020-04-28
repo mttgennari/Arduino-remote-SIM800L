@@ -14,7 +14,9 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        requestHandler = new RequestHandler(this, (TextView) findViewById(R.id.txtStatus), (TextView) findViewById(R.id.txtTempIn));
+        requestHandler = new RequestHandler(this, (TextView) findViewById(R.id.txtStatus),
+                (TextView) findViewById(R.id.txtTempIn),
+                (TextView) findViewById(R.id.txtLastRec));
         requestHandler.getStatoCaldaia();
         requestHandler.getTempIn();
     }
