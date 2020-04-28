@@ -4,11 +4,6 @@ pipeline {
     stage('Build') {
       steps {
         sh 'arduino-cli compile --fqbn arduino:avr:uno Boiler.ino'
-      }
-    }
-
-    stage('Test') {
-      steps {
         catchError(buildResult: 'success', message: 'Build Done')
       }
     }
