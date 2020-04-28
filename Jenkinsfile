@@ -7,9 +7,9 @@ pipeline {
       }
     }
 
-    stage('') {
+    stage('Test') {
       steps {
-        echo 'Build Done'
+        catchError(buildResult: 'success', message: 'Build Done')
       }
     }
 
