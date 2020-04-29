@@ -1,9 +1,9 @@
 <?php
-
+    $now = $_POST['data'];
     $temp = $_POST['temp'];
     $stato = $_post['status'];
 
-    $now = time();
+    //$now = time();
     //sleep(1);
     //$now = $now-60;
     //$temp = rand(20, 40);

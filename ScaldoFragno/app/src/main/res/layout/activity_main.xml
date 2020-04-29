@@ -9,16 +9,44 @@
     tools:context=".MainActivity">
 
     <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:id="@+id/mainLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <ImageView
+        <RelativeLayout
+            android:id="@+id/rlTitle"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:adjustViewBounds="true"
-            android:scaleType="fitStart"
-            app:srcCompat="@drawable/fragno" />
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:adjustViewBounds="true"
+                android:scaleType="fitStart"
+                app:srcCompat="@drawable/fragno" />
+
+            <eightbitlab.com.blurview.BlurView
+                android:id="@+id/blurView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <androidx.appcompat.widget.Toolbar
+                    android:id="@+id/toolbar"
+                    android:layout_width="match_parent"
+                    android:layout_height="?attr/actionBarSize"
+                    app:title="Scaldo Fragno"
+                    app:titleTextColor="@color/colorPrimaryDark"/>
+
+            </eightbitlab.com.blurview.BlurView>
+
+            <View
+                android:layout_width="wrap_content"
+                android:layout_height="1dp"
+                android:layout_alignBottom="@id/blurView"
+                android:background="@color/colorPrimary"/>
+
+        </RelativeLayout>
 
         <View
             android:layout_width="wrap_content"
@@ -37,6 +65,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="0.7"
                 android:textColor="?android:attr/textColorPrimary"
+                android:textSize="@dimen/txtDim"
                 android:text="Ultima registrazione:"/>
 
             <TextView
@@ -46,7 +75,8 @@
                 android:layout_weight="0.3"
                 android:textAlignment="textEnd"
                 android:textColor="?android:attr/textColorPrimary"
-                android:text="23/04/2020 20:45"/>
+                android:textSize="@dimen/txtDim"
+                android:text="-/-/- -:-"/>
 
         </LinearLayout>
 
@@ -67,6 +97,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="0.7"
                 android:textColor="?android:attr/textColorPrimary"
+                android:textSize="@dimen/txtDim"
                 android:text="Temperatura in casa:" />
 
             <TextView
@@ -76,7 +107,8 @@
                 android:layout_weight="0.3"
                 android:textAlignment="textEnd"
                 android:textColor="?android:attr/textColorPrimary"
-                android:text="24,75°"/>
+                android:textSize="@dimen/txtDim"
+                android:text="-°"/>
 
         </LinearLayout>
 
@@ -97,6 +129,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="0.7"
                 android:textColor="?android:attr/textColorPrimary"
+                android:textSize="@dimen/txtDim"
                 android:text="Stato caldaia:" />
 
             <TextView
@@ -106,6 +139,7 @@
                 android:layout_weight="0.3"
                 android:textAlignment="textEnd"
                 android:textColor="?android:attr/textColorPrimary"
+                android:textSize="@dimen/txtDim"
                 android:layout_marginRight="10dp"
                 android:text="Unknown"/>
 
@@ -132,6 +166,7 @@
             android:text="Visualizza storico temperature"
             android:textAlignment="viewStart"
             android:textColor="?android:attr/textColorPrimary"
+            android:textSize="@dimen/txtDim"
             android:textAppearance="@style/TextAppearance.AppCompat.Body1"/>
 
         <View

@@ -5,6 +5,8 @@ import android.view.View;
 import android.widget.Switch;
 import android.widget.TextView;
 
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -27,18 +29,21 @@ public class RequestHandler {
 
     private Context context;
     private Switch sCaldaia;
-
+    private SwipeRefreshLayout refresh;
+    MainActivity main;
     private TextView txtStatus, txtTempIn, txtLastRec;
 
     private RequestQueue queue;
 
-    public RequestHandler(Context context, TextView txtStatus, TextView txtTempIn, TextView txtLastRec, Switch sCaldaia){
+    public RequestHandler(Context context, TextView txtStatus, TextView txtTempIn, TextView txtLastRec, Switch sCaldaia, SwipeRefreshLayout refresh, MainActivity main){
         queue = Volley.newRequestQueue(context);
         this.context = context;
         this.txtStatus = txtStatus;
         this.txtTempIn = txtTempIn;
         this.txtLastRec =txtLastRec;
         this.sCaldaia = sCaldaia;
+        this.refresh = refresh;
+        this.main = main;
     }
 
     public void getStatoCaldaia(){
@@ -72,19 +77,28 @@ public class RequestHandler {
             @Override
             public void onResponse(String response) {
                 tempIn = response.split("&")[1];
+
+                float tmp = Float.parseFloat(tempIn);
+                tempIn = String.format("%.2f", tmp);
+                tempIn = tempIn.replace(".", ",") + "°";
+
                 ultimaRegistazione = response.split("&")[0];
                 txtTempIn.setText(tempIn);
-
 
                 Calendar d = Calendar.getInstance();
                 d.setTimeInMillis(Long.parseLong(ultimaRegistazione)*1000);
                 SimpleDateFormat sdf =  new SimpleDateFormat("dd/MM/yyyy HH:mm");
+
                 txtLastRec.setText(sdf.format(d.getTime()));
+                refresh.setRefreshing(false);
+                sCaldaia.setClickable(true);
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
                 statoCaldaia = "ErroreConnessione";
+                refresh.setRefreshing(false);
+                sCaldaia.setClickable(true);
             }
         });
 
@@ -99,6 +113,7 @@ public class RequestHandler {
             public void onResponse(String response) {
                 if (!response.equals("0"))
                     response = errore;
+                main.autoRefresh();
             }
         }, new Response.ErrorListener() {
             @Override
