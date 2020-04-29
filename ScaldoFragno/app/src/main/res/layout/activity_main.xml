@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-    android:id="@+id/refresh"
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    android:id="@+id/coordinator"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -8,172 +8,187 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <LinearLayout
-        android:id="@+id/mainLayout"
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/refresh"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_height="match_parent">
 
-        <RelativeLayout
-            android:id="@+id/rlTitle"
+        <LinearLayout
+            android:id="@+id/mainLayout"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:adjustViewBounds="true"
-                android:scaleType="fitStart"
-                app:srcCompat="@drawable/fragno" />
-
-            <eightbitlab.com.blurview.BlurView
-                android:id="@+id/blurView"
+            <RelativeLayout
+                android:id="@+id/rlTitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-                <androidx.appcompat.widget.Toolbar
-                    android:id="@+id/toolbar"
+                <ImageView
+                    android:id="@+id/image"
                     android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:adjustViewBounds="true"
+                    android:scaleType="fitStart"
+                    app:srcCompat="@drawable/fragno"/>
+
+                <View
+                    android:id="@+id/line"
+                    android:layout_width="wrap_content"
                     android:layout_height="?attr/actionBarSize"
-                    app:title="Scaldo Fragno"
-                    app:titleTextColor="@color/colorPrimaryDark"/>
+                    android:background="#427E7E7E"
+                    android:layout_alignBottom="@id/image"/>
 
-            </eightbitlab.com.blurview.BlurView>
+                <eightbitlab.com.blurview.BlurView
+                    android:id="@+id/blurView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="0dp"
+                    android:layout_alignBottom="@id/image">
 
-            <View
-                android:layout_width="wrap_content"
-                android:layout_height="1dp"
-                android:layout_alignBottom="@id/blurView"
-                android:background="@color/colorPrimary"/>
 
-        </RelativeLayout>
 
-        <View
-            android:layout_width="wrap_content"
-            android:layout_height="1dp"
-            android:background="@color/colorPrimary"/>
+                    <androidx.appcompat.widget.Toolbar
+                        android:id="@+id/toolbar"
+                        android:layout_width="match_parent"
+                        android:layout_height="?attr/actionBarSize"
+                        app:title="Scaldo Fragno"
+                        app:titleTextColor="@color/colorPrimary" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:paddingVertical="15dp"
-            android:paddingHorizontal="8dp">
+                </eightbitlab.com.blurview.BlurView>
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.7"
-                android:textColor="?android:attr/textColorPrimary"
-                android:textSize="@dimen/txtDim"
-                android:text="Ultima registrazione:"/>
+            </RelativeLayout>
 
-            <TextView
-                android:id="@+id/txtLastRec"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.3"
-                android:textAlignment="textEnd"
-                android:textColor="?android:attr/textColorPrimary"
-                android:textSize="@dimen/txtDim"
-                android:text="-/-/- -:-"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:paddingVertical="15dp"
+                    android:paddingHorizontal="8dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.7"
+                        android:textColor="?android:attr/textColorPrimary"
+                        android:textSize="@dimen/txtDim"
+                        android:text="Ultima registrazione:"/>
+
+                    <TextView
+                        android:id="@+id/txtLastRec"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.3"
+                        android:textAlignment="textEnd"
+                        android:textColor="?android:attr/textColorPrimary"
+                        android:textSize="@dimen/txtDim"
+                        android:text="-/-/- -:-"/>
+
+                </LinearLayout>
+
+                <View
+                    android:layout_width="wrap_content"
+                    android:layout_height="1dp"
+                    android:background="@color/colorPrimary"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:paddingVertical="15dp"
+                    android:paddingHorizontal="8dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.7"
+                        android:textColor="?android:attr/textColorPrimary"
+                        android:textSize="@dimen/txtDim"
+                        android:text="Temperatura in casa:" />
+
+                    <TextView
+                        android:id="@+id/txtTempIn"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.3"
+                        android:textAlignment="textEnd"
+                        android:textColor="?android:attr/textColorPrimary"
+                        android:textSize="@dimen/txtDim"
+                        android:text="-°"/>
+
+                </LinearLayout>
+
+                <View
+                    android:layout_width="wrap_content"
+                    android:layout_height="1dp"
+                    android:background="@color/colorPrimary"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:paddingVertical="15dp"
+                    android:paddingHorizontal="8dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.7"
+                        android:textColor="?android:attr/textColorPrimary"
+                        android:textSize="@dimen/txtDim"
+                        android:text="Stato caldaia:" />
+
+                    <TextView
+                        android:id="@+id/txtStatus"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.3"
+                        android:textAlignment="textEnd"
+                        android:textColor="?android:attr/textColorPrimary"
+                        android:textSize="@dimen/txtDim"
+                        android:layout_marginRight="10dp"
+                        android:text="Unknown"/>
+
+                    <Switch
+                        android:id="@+id/switchCaldaia"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:visibility="gone"/>
+
+                </LinearLayout>
+
+                <View
+                    android:layout_width="wrap_content"
+                    android:layout_height="1dp"
+                    android:background="@color/colorPrimary"/>
+
+                <Button
+                    android:id="@+id/btStorico"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/ripple_effect"
+                    android:paddingHorizontal="8dp"
+                    android:paddingVertical="15dp"
+                    android:text="Visualizza storico temperature"
+                    android:textAlignment="viewStart"
+                    android:textColor="?android:attr/textColorPrimary"
+                    android:textSize="@dimen/txtDim"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Body1"/>
+
+                <View
+                    android:layout_width="wrap_content"
+                    android:layout_height="1dp"
+                    android:background="@color/colorPrimary"/>
+
+            </LinearLayout>
 
         </LinearLayout>
 
-        <View
-            android:layout_width="wrap_content"
-            android:layout_height="1dp"
-            android:background="@color/colorPrimary"/>
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:paddingVertical="15dp"
-            android:paddingHorizontal="8dp">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.7"
-                android:textColor="?android:attr/textColorPrimary"
-                android:textSize="@dimen/txtDim"
-                android:text="Temperatura in casa:" />
-
-            <TextView
-                android:id="@+id/txtTempIn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.3"
-                android:textAlignment="textEnd"
-                android:textColor="?android:attr/textColorPrimary"
-                android:textSize="@dimen/txtDim"
-                android:text="-°"/>
-
-        </LinearLayout>
-
-        <View
-            android:layout_width="wrap_content"
-            android:layout_height="1dp"
-            android:background="@color/colorPrimary"/>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:paddingVertical="15dp"
-            android:paddingHorizontal="8dp">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.7"
-                android:textColor="?android:attr/textColorPrimary"
-                android:textSize="@dimen/txtDim"
-                android:text="Stato caldaia:" />
-
-            <TextView
-                android:id="@+id/txtStatus"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.3"
-                android:textAlignment="textEnd"
-                android:textColor="?android:attr/textColorPrimary"
-                android:textSize="@dimen/txtDim"
-                android:layout_marginRight="10dp"
-                android:text="Unknown"/>
-
-            <Switch
-                android:id="@+id/switchCaldaia"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:visibility="gone"/>
-
-        </LinearLayout>
-
-        <View
-            android:layout_width="wrap_content"
-            android:layout_height="1dp"
-            android:background="@color/colorPrimary"/>
-
-        <Button
-            android:id="@+id/btStorico"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/ripple_effect"
-            android:paddingHorizontal="8dp"
-            android:paddingVertical="15dp"
-            android:text="Visualizza storico temperature"
-            android:textAlignment="viewStart"
-            android:textColor="?android:attr/textColorPrimary"
-            android:textSize="@dimen/txtDim"
-            android:textAppearance="@style/TextAppearance.AppCompat.Body1"/>
-
-        <View
-            android:layout_width="wrap_content"
-            android:layout_height="1dp"
-            android:background="@color/colorPrimary"/>
-
-    </LinearLayout>
-
-</androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

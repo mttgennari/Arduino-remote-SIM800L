@@ -1,10 +1,13 @@
 package com.gennari.scaldofragno;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.browser.customtabs.CustomTabsIntent;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BlurMaskFilter;
@@ -29,6 +32,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.Toolbar;
 
+import com.google.android.material.snackbar.Snackbar;
+
 import eightbitlab.com.blurview.BlurView;
 import eightbitlab.com.blurview.RenderScriptBlur;
 
@@ -47,7 +52,7 @@ public class MainActivity extends AppCompatActivity {
         refresh = findViewById(R.id.refresh);
         BlurView blurView = findViewById(R.id.blurView);
 
-        float radius = 25f;
+        float radius = 4f;
 
         View decorView = getWindow().getDecorView();
         //ViewGroup you want to start blur from. Choose root as close to BlurView in hierarchy as possible.
@@ -69,7 +74,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onRefresh() {
                 sCaldaia.setClickable(false);
-                requestHandler.getStatoCaldaia();
+                requestHandler.getStatoCaldaia(true);
                 requestHandler.getTempIn();
             }
         });
@@ -77,12 +82,34 @@ public class MainActivity extends AppCompatActivity {
         sCaldaia.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                refresh.setRefreshing(true);
-                sCaldaia.setClickable(false);
+
+                AlertDialog.Builder dialog = new AlertDialog.Builder(MainActivity.this);
+                dialog.setTitle("Attenzione");
                 if(sCaldaia.isChecked())
-                    requestHandler.setStatoCaldaia("Accesa");
+                    dialog.setMessage("Si desidera accendere la caldiaia?");
                 else
-                    requestHandler.setStatoCaldaia("Spenta");
+                    dialog.setMessage("Si desidera spegnere la caldaia?");
+                dialog.setNegativeButton("Annulla", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        sCaldaia.setChecked(!sCaldaia.isChecked());
+                        dialog.dismiss();
+                    }
+                });
+
+                dialog.setPositiveButton(sCaldaia.isChecked() ? "Accendi" : "Spegni", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        refresh.setRefreshing(true);
+                        sCaldaia.setClickable(false);
+                        if(sCaldaia.isChecked())
+                            requestHandler.setStatoCaldaia("Accesa");
+                        else
+                            requestHandler.setStatoCaldaia("Spenta");
+                    }
+                });
+
+                dialog.show();
             }
         });
 
@@ -94,15 +121,15 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         sCaldaia.setClickable(true);
-        autoRefresh();
+        autoRefresh(true);
     }
 
-    public void autoRefresh(){
+    public void autoRefresh(final boolean refreshing){
         refresh.post(new Runnable() {
             @Override
             public void run() {
                 refresh.setRefreshing(false);
-                requestHandler.getStatoCaldaia();
+                requestHandler.getStatoCaldaia(refreshing);
                 requestHandler.getTempIn();
             }
         });
@@ -114,6 +141,12 @@ public class MainActivity extends AppCompatActivity {
         builder.setToolbarColor(getColor(R.color.colorPrimary));
         CustomTabsIntent customTabsIntent = builder.build();
         customTabsIntent.launchUrl(MainActivity.this, Uri.parse(url));
+    }
+
+    public void ShowSnackbar(){
+        Snackbar sb = Snackbar.make(findViewById(R.id.coordinator), "Caldaia " + requestHandler.getStatoCaldaiaString(), Snackbar.LENGTH_LONG);
+        sb.getView().setBackgroundColor(getColor(R.color.colorPrimaryDark));
+        sb.show();
     }
 
 }

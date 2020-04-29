@@ -46,7 +46,7 @@ public class RequestHandler {
         this.main = main;
     }
 
-    public void getStatoCaldaia(){
+    public void getStatoCaldaia(final boolean refreshing){
         String url = "http://serverteknel.ddns.net:88/FragnoAPI/get_status.php";
 
         StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
@@ -59,6 +59,8 @@ public class RequestHandler {
                     sCaldaia.setChecked(true);
                 else
                     sCaldaia.setChecked(false);
+                if(!refreshing)
+                    main.ShowSnackbar();
             }
         }, new Response.ErrorListener() {
             @Override
@@ -113,7 +115,7 @@ public class RequestHandler {
             public void onResponse(String response) {
                 if (!response.equals("0"))
                     response = errore;
-                main.autoRefresh();
+                main.autoRefresh(false);
             }
         }, new Response.ErrorListener() {
             @Override
