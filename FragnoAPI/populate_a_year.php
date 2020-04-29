@@ -1,5 +1,5 @@
 <?php
-    $url = 'localhost/FragnoAPI/insert_temp_with_data.php';
+    $url = 'http://serverteknel.ddns.net:88/FragnoAPI/insert_temp_with_data.php';
     $now = 1577836800000;
     for($i=0; $i<52560; $i++){
         $temp = rand(20.00, 37.50);
