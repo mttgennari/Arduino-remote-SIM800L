@@ -1,9 +1,11 @@
 <?php
-
+    $now = $_POST['data'];
     $temp = $_POST['temp'];
-    $stato = $_post['status'];
+    $stato = $_POST['status'];
 
-    $now = time();
+    echo("$now, $temp, $stato");
+
+    //$now = time();
     //sleep(1);
     //$now = $now-60;
     //$temp = rand(20, 40);
@@ -26,7 +28,7 @@
     if ($conn->query($sql) == TRUE) {
         $res = "0";
     } else {
-        $res = "ERRORE! ".$conn->error."\nErrore, impossibile inviare i dati al server\nContattare l'amministratore o riprovare più tardi.";
+        $res = "ERRORE! \n$sql\n".$conn->error."\nErrore, impossibile inviare i dati al server\nContattare l'amministratore o riprovare più tardi.";
     }
     $conn->close();
     
