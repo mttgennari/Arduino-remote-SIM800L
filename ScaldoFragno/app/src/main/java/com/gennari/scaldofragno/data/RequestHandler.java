@@ -1,4 +1,4 @@
-package com.gennari.scaldofragno;
+package com.gennari.scaldofragno.data;
 
 import android.content.Context;
 import android.view.View;
@@ -14,10 +14,13 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.gennari.scaldofragno.Activities.MainActivity;
+import com.gennari.scaldofragno.Adapter.ErrorAdapter;
+import com.google.gson.Gson;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -130,6 +133,29 @@ public class RequestHandler {
                 return params;
             }
         };
+
+        queue.add(stringRequest);
+    }
+
+    public void getErrors(final ErrorAdapter adapter, final SwipeRefreshLayout refresh){
+        String url = "http://serverteknel.ddns.net:88/FragnoAPI/get_error.php";
+
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                ErrorLog[] logs = new Gson().fromJson(response, ErrorLog[].class);
+                adapter.setLogs(logs);
+                adapter.notifyDataSetChanged();
+                refresh.setRefreshing(false);
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                statoCaldaia = "ErroreConnessione";
+                refresh.setRefreshing(false);
+                sCaldaia.setClickable(true);
+            }
+        });
 
         queue.add(stringRequest);
     }

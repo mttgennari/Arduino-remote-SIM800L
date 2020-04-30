@@ -6,7 +6,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".Activities.MainActivity">
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:id="@+id/refresh"
@@ -53,7 +53,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="?attr/actionBarSize"
                         app:title="Scaldo Fragno"
-                        app:titleTextColor="@color/colorPrimary" />
+                        app:titleTextColor="@color/colorPrimary"/>
 
                 </eightbitlab.com.blurview.BlurView>
 
