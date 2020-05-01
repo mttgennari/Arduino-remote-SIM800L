@@ -9,18 +9,18 @@ The system aims to be a simple way to turn on and off the Fragno Heating System 
 ## Project Management
 Project is managed via GitHub SCM and Jenkins in order to guarantee the code to be always build and tested. Jenkins runs on a local server with which GitHub communicates in order to trigger jobs for building testing and deploying. Jenkins service potentially allows to keep track of each commit build and test history. Here briefly explained the way the workflow is designed.
 
-<div style="text-align:center">
+<p align="center">
 <img src="images/ProjectManagement.png" width="500"> 
-</div>
+</p>
 
 ### CI / CD Jenkins Pipeline
 
 Jenkins allows the definition of jobs triggerable directly from GitHub, The following pipeline has been choosen for this project allowing the developer a user friendly and accessible way to mantain the code, trigger tests and deploy the application
 <p>&nbsp;</p>
 
-<div style="text-align:center">
+<p align="center">  
 <img src="images/CI_CDPipeline.png" width="730"> 
-</div>
+</p>
 
 ## Needed prerequisites
 
