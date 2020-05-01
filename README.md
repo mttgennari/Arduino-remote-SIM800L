@@ -4,7 +4,7 @@
 
 The system aims to be a simple way to turn on and off the Fragno Heating System (FHS) and access useful data like actual temperature and history of temperature inside and outside the house. The system will be accessible to all users trought a custom android application. 
 
-<img src="images/description.png" width="770">
+<img src="images/description.png" width="830">
 
 ## Needed prerequisites
 
