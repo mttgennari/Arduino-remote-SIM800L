@@ -1,37 +1,28 @@
-package com.gennari.scaldofragno;
+package com.gennari.scaldofragno.Activities;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.app.AppCompatDelegate;
+import androidx.appcompat.widget.Toolbar;
 import androidx.browser.customtabs.CustomTabsIntent;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BlurMaskFilter;
-import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
-import android.renderscript.Allocation;
-import android.renderscript.Element;
-import android.renderscript.RenderScript;
-import android.renderscript.ScriptIntrinsicBlur;
-import android.transition.Scene;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.Button;
-import android.widget.CompoundButton;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.Toolbar;
 
+import com.gennari.scaldofragno.R;
+import com.gennari.scaldofragno.data.RequestHandler;
 import com.google.android.material.snackbar.Snackbar;
 
 import eightbitlab.com.blurview.BlurView;
@@ -42,11 +33,15 @@ public class MainActivity extends AppCompatActivity {
     private RequestHandler requestHandler;
     private Switch sCaldaia;
     private SwipeRefreshLayout refresh;
+    private Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
 
         sCaldaia = findViewById(R.id.switchCaldaia);
         refresh = findViewById(R.id.refresh);
@@ -122,6 +117,30 @@ public class MainActivity extends AppCompatActivity {
         });
         sCaldaia.setClickable(true);
         autoRefresh(true);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuItem menuRef = findViewById(R.id.menu_refresh);
+        getMenuInflater().inflate(R.menu.main_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+
+        int id = item.getItemId();
+        switch(id){
+            case R.id.menu_refresh:
+                autoRefresh(true);
+                break;
+            case R.id.menu_log:
+                Intent i = new Intent(MainActivity.this, ErrorActivity.class);
+                startActivity(i);
+                break;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
     public void autoRefresh(final boolean refreshing){
