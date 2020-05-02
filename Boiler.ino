@@ -3,7 +3,7 @@
 //jenkins
 //Definiamo una SoftwareSerial con i pin 8 ed 7 che devono essere collegati rispettivamente al TX ed RX del SIM800L
 SoftwareSerial SIM800L(8, 7);
-
+//
 float getVoltage(int);
 
 String lastLine="";
