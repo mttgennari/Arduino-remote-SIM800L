@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="it">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scaldo Fragno</title>
+    <link rel="stylesheet" href="css/base_elements.css">
+    <link rel="stylesheet" href="css/font.css">
+    <link rel="stylesheet" href="css/main.css">
+  </head>
+  <body>
+    <div id="top">
+      <img id="fragno_img" src="img/Fragno.jpg"/>
+      <div id="toolbar">
+        <div id="title">Scaldo Fragno</div>
+        <img class="button" id="refresh" onclick="refresh()" src="icon/cached-black-48dp.svg">
+        <img class="button" id="error" src="icon/report_problem-black-48dp.svg">
+      </div>
+    </div>
+
+    <div class="line" id="first">
+      <div id="text">Ultima Registrazione;</div>
+      <div class="value" id="time"> --/--/---- --:--</div>
+    </div>
+
+    <div class="line">
+      <div id="text">Temperatura in casa;</div>
+      <div class="value" id="temp"> --,--°</div>
+    </div>
+
+    <div class="line">
+      <div id="text">Stato caldaia:</div>
+      <div class="command">
+        <label class="switch">
+          <input type="checkbox" id="cbStatus" onclick="changeStatus()" checked>
+          <span class="slider round"></span>
+        </label>
+      </div>
+      <div class="value" id="status">
+        Unknown
+      </div>
+    </div>
+
+    <div class="line">
+      <a href="serverteknel.ddns.net:3000/d/M5L7K3qWk/fragno?orgId=1&refresh=5s&from=now-12h&to=now">
+        <div id="text">Visualizza storico temperature</div>
+        <div class="value"></div>
+      </a>
+    </div>
+
+    <footer>
+      <a href="apk/ScaldoFragno.apk" download>
+        <img src="img/icon.png"/>
+        <div id="text">Scarica l'aplicazione</div> 
+      </a>
+    </footer>
+
+  </body>
+
+  <script src="js/jquery.js"></script>
+  <script src="js/RequestHandler.js"></script>
+</html>
