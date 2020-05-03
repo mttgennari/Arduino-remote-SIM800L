@@ -18,9 +18,9 @@ android {
             // You need to specify either an absolute path or include the
             // keystore file in the same directory as the build.gradle file.
             storeFile file("/home/srwwedding/my-release-key.jks")
-            storePassword "password"
-            keyAlias "my-alias"
-            keyPassword "password"
+            storePassword "sf1234"
+            keyAlias "scaldofragno
+            keyPassword "sf1234"
         }
     }
 
