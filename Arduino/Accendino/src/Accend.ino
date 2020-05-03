@@ -1,6 +1,7 @@
 #include <SoftwareSerial.h>
 #include <EEPROM.h>
 #include "datatype.h"
+#include "wifi_config.h"
 //Definiamo una SoftwareSerial con i pin 8 ed 7 che devono essere collegati rispettivamente al TX ed RX del SIM800L   
 
 float getVoltage(int);
