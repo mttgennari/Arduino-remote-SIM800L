@@ -1,6 +1,7 @@
 package com.gennari.scaldofragno.data;
 
 import android.content.Context;
+import android.os.AsyncTask;
 import android.view.View;
 import android.widget.Switch;
 import android.widget.TextView;
@@ -75,6 +76,24 @@ public class RequestHandler {
         queue.add(stringRequest);
     }
 
+    public void getStatoCaldaiaTimer(){
+        String url = "http://serverteknel.ddns.net:88/FragnoAPI/get_status.php";
+
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                tmpStatus = response;
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                statoCaldaia = "ErroreConnessione";
+            }
+        });
+
+        queue.add(stringRequest);
+    }
+
     public void getTempIn(){
         String url = "http://serverteknel.ddns.net:88/FragnoAPI/get_last_temperature.php";
 
@@ -110,7 +129,9 @@ public class RequestHandler {
         queue.add(stringRequest);
     }
 
-    public void setStatoCaldaia(final String status){
+    String tmpStatus;
+
+    public void setStatoCaldaia(final String status) {
         String url = "http://serverteknel.ddns.net:88/FragnoAPI/insert_status.php";
 
         StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
@@ -118,7 +139,8 @@ public class RequestHandler {
             public void onResponse(String response) {
                 if (!response.equals("0"))
                     response = errore;
-                main.autoRefresh(false);
+
+                new doCheckStatoCaldaia().execute();
             }
         }, new Response.ErrorListener() {
             @Override
@@ -128,7 +150,7 @@ public class RequestHandler {
         }) {
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
-                Map<String, String>  params = new HashMap<String, String>();
+                Map<String, String> params = new HashMap<String, String>();
                 params.put("status", status);
                 return params;
             }
@@ -164,4 +186,28 @@ public class RequestHandler {
         return statoCaldaia;
     }
 
+
+    private class doCheckStatoCaldaia extends AsyncTask<Void, Void, Void>{
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+            tmpStatus = statoCaldaia;
+            getStatoCaldaiaTimer();
+
+            int i = 0;
+
+            while(tmpStatus.equals(statoCaldaia) && i <= 30){
+                getStatoCaldaiaTimer();
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                i++;
+            }
+
+            main.autoRefresh(false);
+            return null;
+        }
+    }
 }
