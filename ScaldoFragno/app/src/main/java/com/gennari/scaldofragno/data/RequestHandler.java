@@ -1,6 +1,7 @@
 package com.gennari.scaldofragno.data;
 
 import android.content.Context;
+import android.os.AsyncTask;
 import android.view.View;
 import android.widget.Switch;
 import android.widget.TextView;
@@ -16,6 +17,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.gennari.scaldofragno.Activities.MainActivity;
 import com.gennari.scaldofragno.Adapter.ErrorAdapter;
+import com.gennari.scaldofragno.Dialogs.ProgressDialog;
 import com.google.gson.Gson;
 
 import java.text.SimpleDateFormat;
@@ -50,6 +52,10 @@ public class RequestHandler {
     }
 
     public void getStatoCaldaia(final boolean refreshing){
+        getStatoCaldaia(refreshing, null);
+    }
+
+    public void getStatoCaldaia(final boolean refreshing, final String cmd){
         String url = "http://serverteknel.ddns.net:88/FragnoAPI/get_status.php";
 
         StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
@@ -58,10 +64,17 @@ public class RequestHandler {
                 statoCaldaia = response;
                 txtStatus.setText(statoCaldaia);
                 sCaldaia.setVisibility(View.VISIBLE);
-                if(statoCaldaia.equals("Accesa"))
-                    sCaldaia.setChecked(true);
-                else
-                    sCaldaia.setChecked(false);
+
+                if(cmd == null){
+                    if(statoCaldaia.equals("Accesa"))
+                        sCaldaia.setChecked(true);
+                    else
+                        sCaldaia.setChecked(false);
+                }else{
+                    if(cmd.equals(statoCaldaia))
+                        sCaldaia.setChecked(statoCaldaia.equals("Accesa"));
+                }
+
                 if(!refreshing)
                     main.ShowSnackbar();
             }
@@ -118,7 +131,6 @@ public class RequestHandler {
             public void onResponse(String response) {
                 if (!response.equals("0"))
                     response = errore;
-                main.autoRefresh(false);
             }
         }, new Response.ErrorListener() {
             @Override

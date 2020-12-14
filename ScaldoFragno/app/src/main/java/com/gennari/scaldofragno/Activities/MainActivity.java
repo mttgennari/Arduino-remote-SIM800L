@@ -11,6 +11,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -21,6 +22,7 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.gennari.scaldofragno.Dialogs.ProgressDialog;
 import com.gennari.scaldofragno.R;
 import com.gennari.scaldofragno.data.RequestHandler;
 import com.google.android.material.snackbar.Snackbar;
@@ -95,12 +97,14 @@ public class MainActivity extends AppCompatActivity {
                 dialog.setPositiveButton(sCaldaia.isChecked() ? "Accendi" : "Spegni", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        refresh.setRefreshing(true);
                         sCaldaia.setClickable(false);
-                        if(sCaldaia.isChecked())
-                            requestHandler.setStatoCaldaia("Accesa");
+
+                        if(!sCaldaia.isChecked())
+                           new AsyncChangeStatoCaldaia().execute("Spenta");
+                            //requestHandler.setStatoCaldaia("Accesa");
                         else
-                            requestHandler.setStatoCaldaia("Spenta");
+                            new AsyncChangeStatoCaldaia().execute("Accesa");
+                            //requestHandler.setStatoCaldaia("Spenta");
                     }
                 });
 
@@ -163,9 +167,63 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void ShowSnackbar(){
-        Snackbar sb = Snackbar.make(findViewById(R.id.coordinator), "Caldaia " + requestHandler.getStatoCaldaiaString(), Snackbar.LENGTH_LONG);
+        Snackbar sb = Snackbar.make(findViewById(R.id.coordinator), "Caldaia " + (requestHandler.getStatoCaldaiaString()), Snackbar.LENGTH_LONG);
         sb.getView().setBackgroundColor(getColor(R.color.colorPrimaryDark));
         sb.show();
     }
 
+    public void ShowErrorSnackbar(){
+        Snackbar sb = Snackbar.make(findViewById(R.id.coordinator), "Errore: non è stato possibile modificare lo stato della caldaia", Snackbar.LENGTH_LONG);
+        sb.getView().setBackgroundColor(getColor(R.color.colorPrimaryDark));
+        sb.show();
+    }
+
+    public class AsyncChangeStatoCaldaia extends AsyncTask<String, Void, String> {
+        ProgressDialog progress;
+        int TIMEOUT = 30;
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            progress = new ProgressDialog(MainActivity.this);
+            progress.setTitle("Invio Comando");
+            progress.setMessage("ATTENZIONE! Non chiudere l'applicazione\n\nAttendi mentre invio il comando alla caldaia");
+            progress.show();
+        }
+
+        @Override
+        public String doInBackground(String... data) {
+            String cmd = data[0];
+
+            requestHandler.setStatoCaldaia(cmd);
+
+            int time = 0;
+            while(!requestHandler.getStatoCaldaiaString().equals(cmd) && time < TIMEOUT){
+                requestHandler.getStatoCaldaia(true, cmd);
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                time++;
+            }
+
+            return cmd;
+        }
+
+        @Override
+        protected void onPostExecute(String cmd) {
+            super.onPostExecute(cmd);
+            if(!requestHandler.getStatoCaldaiaString().equals(cmd)){
+                requestHandler.setStatoCaldaia(cmd);
+                sCaldaia.setChecked(!sCaldaia.isChecked());
+
+                ShowErrorSnackbar();
+            }else{
+                ShowSnackbar();
+            }
+            sCaldaia.setClickable(true);
+            progress.dismiss();
+        }
+    }
 }
